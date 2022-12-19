@@ -75,6 +75,7 @@ function Tree(a) {
         // Delete node with value
         delete(v, root = this.root) {
 
+            // If tree is empty
             if (root === null) return root;
 
             if (v < root.data) {
@@ -84,10 +85,12 @@ function Tree(a) {
             } 
             
             else {
+                // If node has one child
                 if (root.left === null) return root.right;
 
                 else if (root.right === null) return root.left;
 
+                // If node has 2 children return smallest in right 
                 else {
                     root.data = minValue(root.right);
     
@@ -138,10 +141,19 @@ function Tree(a) {
         },
 
         // Tbc
-        levelOrder(fun) {
+        levelOrder(fun, root = this.root) {
+            let queue = [root];
+            let empty = [];
 
+            while (queue.length > 0) {
+                if(queue[0].left !== null) queue.push(queue[0].left);
+                if(queue[0].right !== null) queue.push(queue[0].right);
+                if(fun) fun(queue[0].data);
+                else  empty.push(queue[0].data);
+                queue.shift();
+            }
+            if (!fun) return empty;
         }
-
     }
 }
 
@@ -206,9 +218,6 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
 
 prettyPrint(t1.root);
 
-function show(a, i) {
-    if (i === 'insert') t1.insert(a)
-    if (i === 'delete') t1.delete(a)
-
-    prettyPrint(t1.root);
+function testing(a) {
+    console.log(a);
 }

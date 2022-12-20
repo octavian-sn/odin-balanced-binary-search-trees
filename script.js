@@ -140,7 +140,7 @@ function Tree(a) {
             return v < node.data ? this.find(v, node.left) : this.find(v, node.right);
         },
 
-        // Tbc
+        // Provide each node to a provided function as an argument
         levelOrder(fun, root = this.root, queue = [root], empty = []) {
             // Recursion version
             if (queue.length < 1 && !fun) console.log(empty);
@@ -169,7 +169,72 @@ function Tree(a) {
             //     queue.shift();
             // }
             // if (!fun) return empty;
-        }
+        },
+
+        // Traverse the tree in respective order and yield each node to provided function or return array
+        inOrder(f, node = this.root, empty = []) {
+            if (node === null) return
+
+            if(f) {
+                this.inOrder(f, node.left);
+                f(node.data);
+                this.inOrder(f, node.right);
+            } else {
+                this.inOrder(null, node.left, empty);
+                empty.push(node.data);
+                this.inOrder(null, node.right, empty);
+                return empty
+            }
+        },
+
+        preOrder(f, node = this.root, empty = [] ) {
+            if (node === null) return
+
+            if(f) {
+                f(node.data);
+                this.preOrder(f, node.left);
+                this.preOrder(f, node.right);
+            } else {
+                empty.push(node.data);
+                this.preOrder(null, node.left, empty);
+                this.preOrder(null, node.right, empty);
+                return empty
+            }
+        },
+
+        postOrder(f, node = this.root, empty = []) {
+            if (node === null) return
+
+            if(f) {
+                this.postOrder(f, node.left);
+                this.postOrder(f, node.right);
+                f(node.data);
+            } else {
+                this.postOrder(null, node.left, empty);
+                this.postOrder(null, node.right, empty);
+                empty.push(node.data);
+                return empty
+            }
+        },
+
+        // Return a node's height
+        height(node) {
+
+        },
+
+        // Return a node's depth
+        depth(node) {
+
+        },
+
+        // Check if tree is balanced
+        isBalanced() {
+
+        },
+
+        reBalance() {
+
+        },
     }
 }
 

@@ -141,18 +141,34 @@ function Tree(a) {
         },
 
         // Tbc
-        levelOrder(fun, root = this.root) {
-            let queue = [root];
-            let empty = [];
-
-            while (queue.length > 0) {
-                if(queue[0].left !== null) queue.push(queue[0].left);
-                if(queue[0].right !== null) queue.push(queue[0].right);
-                if(fun) fun(queue[0].data);
-                else  empty.push(queue[0].data);
-                queue.shift();
+        levelOrder(fun, root = this.root, queue = [root], empty = []) {
+            // Recursion version
+            if (queue.length < 1 && !fun) console.log(empty);
+            if (queue.length < 1) return
+            else {
+                if(root.left !== null) queue.push(root.left);
+                if(root.right !== null) queue.push(root.right);
+                empty = empty.concat([queue[0].data])
+                if(fun) {
+                    fun(queue[0].data);
+                    queue.shift()  
+                    this.levelOrder(fun, queue[0], queue, empty)
+                } 
+                if(!fun) {
+                    queue.shift()  
+                    this.levelOrder(null, queue[0], queue, empty)
+                }
             }
-            if (!fun) return empty;
+
+            // Iteration version
+            // while (queue.length > 0) {
+            //     if(queue[0].left !== null) queue.push(queue[0].left);
+            //     if(queue[0].right !== null) queue.push(queue[0].right);
+            //     if(fun) fun(queue[0].data);
+            //     else  empty.push(queue[0].data);
+            //     queue.shift();
+            // }
+            // if (!fun) return empty;
         }
     }
 }

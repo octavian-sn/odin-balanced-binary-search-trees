@@ -218,13 +218,21 @@ function Tree(a) {
         },
 
         // Return a node's height
-        height(node) {
+        height(root = this.root) {
+            if(root === null) return - 1;
 
+            let left = this.height(root.left);
+            let right = this.height(root.right);
+            if (left > right) {
+                return left + 1
+            } else return right + 1
         },
 
         // Return a node's depth
-        depth(node) {
-
+        depth(a) {
+            let rootHeight = this.height(this.root);
+            let nodeHeight = this.height(a);
+            return rootHeight - nodeHeight;
         },
 
         // Check if tree is balanced

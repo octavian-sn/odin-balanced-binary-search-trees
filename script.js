@@ -223,9 +223,8 @@ function Tree(a) {
 
             let left = this.height(root.left);
             let right = this.height(root.right);
-            if (left > right) {
-                return left + 1
-            } else return right + 1
+            
+            return Math.max(left, right) + 1;
         },
 
         // Return a node's depth
@@ -237,11 +236,19 @@ function Tree(a) {
 
         // Check if tree is balanced
         isBalanced() {
-
+            let left = this.height(this.root.left)
+            let right = this.height(this.root.right)
+            if ((left - right === 1) || (left - right === 0)) return true
+            else if ((right - left === 1) || (right - left === 0)) return true
+            else return false;
         },
 
+        // Re-balance tree
         reBalance() {
-
+            let unbalanced = this.inOrder();
+            let sorted = sort(unbalanced);
+            let noDuplicates = removeDuplicates(sorted);
+            this.root = buildTree(noDuplicates);
         },
     }
 }

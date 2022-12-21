@@ -143,32 +143,32 @@ function Tree(a) {
         // Provide each node to a provided function as an argument
         levelOrder(fun, root = this.root, queue = [root], empty = []) {
             // Recursion version
-            if (queue.length < 1 && !fun) console.log(empty);
-            if (queue.length < 1) return
-            else {
-                if(root.left !== null) queue.push(root.left);
-                if(root.right !== null) queue.push(root.right);
-                empty = empty.concat([queue[0].data])
-                if(fun) {
-                    fun(queue[0].data);
-                    queue.shift()  
-                    this.levelOrder(fun, queue[0], queue, empty)
-                } 
-                if(!fun) {
-                    queue.shift()  
-                    this.levelOrder(null, queue[0], queue, empty)
-                }
-            }
+            // if (queue.length < 1 && !fun) console.log(empty);
+            // if (queue.length < 1) return
+            // else {
+            //     if(root.left !== null) queue.push(root.left);
+            //     if(root.right !== null) queue.push(root.right);
+            //     empty = empty.concat([queue[0].data])
+            //     if(fun) {
+            //         fun(queue[0].data);
+            //         queue.shift()  
+            //         this.levelOrder(fun, queue[0], queue, empty)
+            //     } 
+            //     if(!fun) {
+            //         queue.shift()  
+            //         this.levelOrder(null, queue[0], queue, empty)
+            //     }
+            // }
 
             // Iteration version
-            // while (queue.length > 0) {
-            //     if(queue[0].left !== null) queue.push(queue[0].left);
-            //     if(queue[0].right !== null) queue.push(queue[0].right);
-            //     if(fun) fun(queue[0].data);
-            //     else  empty.push(queue[0].data);
-            //     queue.shift();
-            // }
-            // if (!fun) return empty;
+            while (queue.length > 0) {
+                if(queue[0].left !== null) queue.push(queue[0].left);
+                if(queue[0].right !== null) queue.push(queue[0].right);
+                if(fun) fun(queue[0].data);
+                else  empty.push(queue[0].data);
+                queue.shift();
+            }
+            if (!fun) return empty;
         },
 
         // Traverse the tree in respective order and yield each node to provided function or return array
@@ -299,7 +299,7 @@ function minValue(root) {
 
 let array = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 
-let t1 = Tree(array)
+// let t1 = Tree(array)
 
 
 const prettyPrint = (node, prefix = '', isLeft = true) => {
@@ -312,8 +312,45 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
     }
 }
 
-prettyPrint(t1.root);
+// prettyPrint(t1.root);
 
-function testing(a) {
-    console.log(a);
+function randomNumberArray(a = 1) {
+    let array = []
+    for (let i = 0 ; i < a ; i++) {
+        array.push(Math.floor(Math.random() * 1000) + 1)
+    }
+    return array;
+}
+
+groot = (n) => {
+    let array = randomNumberArray(n); 
+    console.log(array);
+
+    let tree = Tree(array)
+
+    tree.isBalanced() ? console.log('Tree is balanced') : console.log('Tree is not balanced');
+    prettyPrint(tree.root);
+
+    console.log(`Level order is: ${tree.levelOrder()}`)
+    console.log(`Pre-order is: ${tree.preOrder()}`)
+    console.log(`In-order is: ${tree.inOrder()}`)
+    console.log(`Post-order is: ${tree.postOrder()}`)
+
+    tree.insert(3);
+    tree.insert(9);
+    tree.insert(2);
+    tree.insert(0);
+
+    tree.isBalanced() ? console.log('Tree is balanced') : console.log('Tree is not balanced');
+    prettyPrint(tree.root);
+
+    tree.reBalance();
+    
+    tree.isBalanced() ? console.log('Tree is balanced') : console.log('Tree is not balanced');
+    prettyPrint(tree.root);
+
+    console.log(`Level order is: ${tree.levelOrder()}`)
+    console.log(`Pre-order is: ${tree.preOrder()}`)
+    console.log(`In-order is: ${tree.inOrder()}`)
+    console.log(`Post-order is: ${tree.postOrder()}`)
 }
